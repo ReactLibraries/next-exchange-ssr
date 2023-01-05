@@ -1,0 +1,38 @@
+{
+  "name": "@react-libraries/next-exchange-ssr",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -b",
+    "lint:fix": "eslint --fix && prettier -w src"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "eslint": "8.31.0",
+    "eslint-config-next": "13.1.1",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.26.0",
+    "graphql": "^16.6.0",
+    "prettier": "^2.8.1",
+    "typescript": "4.9.4",
+    "urql": "^3.0.3",
+    "wonka": "^6.1.2"
+  },
+  "author": "SoraKumo <info@croud.jp>",
+  "keywords": [
+    "GraphQL",
+    "urql",
+    "Server",
+    "Next.js",
+    "nextjs",
+    "typescript"
+  ],
+  "description": "SSR with urql and Next.js for `Exchange`",
+  "repository": "https://github.com/ReactLibraries/next-exchange-ssr"
+}
