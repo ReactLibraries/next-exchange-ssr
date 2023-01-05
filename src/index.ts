@@ -1,5 +1,5 @@
 import { DocumentNode } from "graphql";
-import { createElement, ReactNode } from "react";
+import { createElement, Fragment, ReactNode } from "react";
 import {
   AnyVariables,
   composeExchanges,
@@ -52,7 +52,7 @@ const DataRender = () => {
  * For SSR data insertion
  */
 export const NextSSRProvider = ({ children }: { children: ReactNode }) => {
-  return [children, createElement(DataRender)];
+  return createElement(Fragment, {}, children, createElement(DataRender));
 };
 
 /**

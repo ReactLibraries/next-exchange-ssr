@@ -1,6 +1,7 @@
 # @react-libraries/next-exchange-ssr
 
-SSR with urql and Next.js for `Exchange`
+SSR urql useQuery as it is on Next.js
+Does not require 'withUrqlClient'.
 
 ## Sample
 
