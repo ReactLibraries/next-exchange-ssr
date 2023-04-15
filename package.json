@@ -1,6 +1,6 @@
 {
   "name": "@react-libraries/next-exchange-ssr",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
@@ -11,18 +11,18 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^18.11.18",
-    "@types/react": "^18.0.26",
-    "@typescript-eslint/eslint-plugin": "^5.48.0",
-    "eslint": "8.31.0",
-    "eslint-config-next": "13.1.1",
-    "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-import": "^2.26.0",
+    "@types/node": "^18.15.11",
+    "@types/react": "^18.0.35",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
     "graphql": "^16.6.0",
-    "prettier": "^2.8.1",
-    "typescript": "4.9.4",
-    "urql": "^3.0.3",
-    "wonka": "^6.1.2"
+    "prettier": "^2.8.7",
+    "typescript": "5.0.4",
+    "urql": "^4.0.0",
+    "wonka": "^6.3.1"
   },
   "author": "SoraKumo <info@croud.jp>",
   "keywords": [

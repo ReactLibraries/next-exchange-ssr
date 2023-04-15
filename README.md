@@ -1,6 +1,6 @@
 # @react-libraries/next-exchange-ssr
 
-SSR urql useQuery as it is on Next.js
+SSR urql useQuery as it is on Next.js.  
 Does not require 'withUrqlClient'.
 
 ## Sample
@@ -78,7 +78,7 @@ const Page = () => {
     <>
       <a
         target="_blank"
-        href="https://github.com/SoraKumo001/next-apollo-server"
+        href="https://github.com/SoraKumo001/next-urql"
         rel="noreferrer"
       >
         Source code
