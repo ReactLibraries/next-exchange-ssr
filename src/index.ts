@@ -42,7 +42,9 @@ const DataRender = () => {
     return createElement("script", {
       id: DATA_NAME,
       type: "application/json",
-      dangerouslySetInnerHTML: { __html: JSON.stringify(extractData) },
+      dangerouslySetInnerHTML: {
+        __html: JSON.stringify(extractData).replace(/</g, "\\u003c"),
+      },
     });
   }
   return null;
