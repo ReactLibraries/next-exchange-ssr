@@ -16,7 +16,7 @@ Does not require 'withUrqlClient'.
 import { useMemo, useState } from "react";
 import { cacheExchange, Client, fetchExchange, Provider } from "urql";
 import {
-  createNextSSRExchange,
+  useCreateNextSSRExchange,
   NextSSRProvider,
 } from "@react-libraries/next-exchange-ssr";
 import type { AppType } from "next/app";
@@ -33,7 +33,7 @@ const url = isServerSide
 
 const App: AppType = ({ Component, pageProps }) => {
   // NextSSRExchange to be unique on AppTree
-  const [nextSSRExchange] = useState(createNextSSRExchange);
+  const nextSSRExchange = useCreateNextSSRExchange();
   const client = useMemo(() => {
     return new Client({
       url,

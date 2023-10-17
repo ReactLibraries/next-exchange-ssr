@@ -1,8 +1,8 @@
 .github
 /node_modules
 /src
+/esm
 .eslintrc.json
 .gitignore
 tsconfig.json
 yarn.lock
-

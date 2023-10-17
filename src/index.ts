@@ -1,5 +1,5 @@
 import { DocumentNode } from "graphql";
-import { createElement, Fragment, ReactNode } from "react";
+import { createElement, Fragment, ReactNode, useRef } from "react";
 import {
   AnyVariables,
   composeExchanges,
@@ -160,4 +160,15 @@ export const createNextSSRExchange = () => {
       _nextExchange,
     ].filter((v): v is Exchange => v !== false)
   );
+};
+
+/**
+ * Get exchange for Next.js
+ */
+export const useCreateNextSSRExchange = () => {
+  const refExchange = useRef<Exchange>();
+  if (!refExchange.current) {
+    refExchange.current = createNextSSRExchange();
+  }
+  return refExchange.current;
 };
