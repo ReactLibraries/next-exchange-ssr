@@ -1,7 +1,9 @@
 import { DocumentNode } from "graphql";
-import { createElement, Fragment, ReactNode, useRef } from "react";
+import React from "react";
+import { ReactNode, useRef } from "react";
 import {
   AnyVariables,
+  Client,
   composeExchanges,
   Exchange,
   makeResult,
@@ -31,21 +33,23 @@ export const getInitialState = () => {
 /**
  * Wait until end of Query and output collected data at render time
  */
-const DataRender = () => {
-  const client = useClient();
+const DataRender = ({ client: c }: { client: Client }) => {
+  const client = c ?? useClient();
   if (isServerSide) {
     const extractData = client.readQuery(`query{extractData}`, {})?.data
       .extractData;
     if (!extractData) {
       throw client.query(`query{extractData}`, {}).toPromise();
     }
-    return createElement("script", {
-      id: DATA_NAME,
-      type: "application/json",
-      dangerouslySetInnerHTML: {
-        __html: JSON.stringify(extractData).replace(/</g, "\\u003c"),
-      },
-    });
+    return (
+      <script
+        id={DATA_NAME}
+        type="application/json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(extractData).replace(/</g, "\\u003c"),
+        }}
+      />
+    );
   }
   return null;
 };
@@ -53,15 +57,26 @@ const DataRender = () => {
 /**
  * For SSR data insertion
  */
-export const NextSSRProvider = ({ children }: { children: ReactNode }) => {
-  return createElement(Fragment, {}, children, createElement(DataRender));
+export const NextSSRProvider = ({
+  client,
+  children,
+}: {
+  client: Client;
+  children: ReactNode;
+}) => {
+  return (
+    <>
+      {children}
+      <DataRender client={client} />
+    </>
+  );
 };
 
 /**
  * Get name from first field
  */
 const getFieldSelectionName = (
-  query: DocumentNode | TypedDocumentNode<any, AnyVariables>
+  query: DocumentNode | TypedDocumentNode<any, AnyVariables>,
 ) => {
   const definition = query.definitions[0];
   if (definition?.kind === "OperationDefinition") {
@@ -78,7 +93,7 @@ const getFieldSelectionName = (
  */
 const createLocalValueExchange = <T extends object>(
   key: string,
-  callback: () => Promise<T>
+  callback: () => Promise<T>,
 ) => {
   const localValueExchange: Exchange = ({ forward }) => {
     return (ops$) => {
@@ -88,17 +103,21 @@ const createLocalValueExchange = <T extends object>(
           const selectionName = getFieldSelectionName(query);
           return key !== selectionName;
         }),
-        forward
+        forward,
       );
       const valueOps$ = pipe(
         ops$,
+        filter(({ query }) => {
+          const selectionName = getFieldSelectionName(query);
+          return key === selectionName;
+        }),
         mergeMap((op) => {
           return fromPromise(
             new Promise<OperationResult>(async (resolve) => {
               resolve(makeResult(op, { data: { [key]: await callback() } }));
-            })
+            }),
           );
-        })
+        }),
       );
       return merge([filterOps$, valueOps$]);
     };
@@ -130,6 +149,9 @@ export const createNextSSRExchange = () => {
                 context.resolve = resolve;
               });
               promises.add(promise);
+              promise.then(() => {
+                promises.delete(promise);
+              });
             }
           }),
           forward,
@@ -137,7 +159,7 @@ export const createNextSSRExchange = () => {
             if (operation.kind === "query") {
               operation.context.resolve();
             }
-          })
+          }),
         );
       }
     };
@@ -147,18 +169,14 @@ export const createNextSSRExchange = () => {
       _ssrExchange,
       isServerSide &&
         createLocalValueExchange("extractData", async () => {
-          let length: number;
-          while ((length = promises?.size)) {
-            await Promise.allSettled(promises).then(() => {
-              if (length === promises.size) {
-                promises.clear();
-              }
-            });
+          while (promises.size) {
+            await Promise.allSettled(promises);
+            await new Promise((resolve) => setTimeout(resolve, 0));
           }
           return _ssrExchange.extractData();
         }),
       _nextExchange,
-    ].filter((v): v is Exchange => v !== false)
+    ].filter((v): v is Exchange => v !== false),
   );
 };
 
