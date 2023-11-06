@@ -5,4 +5,5 @@
 .eslintrc.json
 .gitignore
 tsconfig.json
+tsconfig.esm.json
 yarn.lock

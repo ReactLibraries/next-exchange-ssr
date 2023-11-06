@@ -33,7 +33,7 @@ export const getInitialState = () => {
 /**
  * Wait until end of Query and output collected data at render time
  */
-const DataRender = ({ client: c }: { client: Client }) => {
+const DataRender = ({ client: c }: { client?: Client }) => {
   const client = c ?? useClient();
   if (isServerSide) {
     const extractData = client.readQuery(`query{extractData}`, {})?.data
@@ -61,7 +61,7 @@ export const NextSSRProvider = ({
   client,
   children,
 }: {
-  client: Client;
+  client?: Client;
   children: ReactNode;
 }) => {
   return (
@@ -76,7 +76,7 @@ export const NextSSRProvider = ({
  * Get name from first field
  */
 const getFieldSelectionName = (
-  query: DocumentNode | TypedDocumentNode<any, AnyVariables>,
+  query: DocumentNode | TypedDocumentNode<any, AnyVariables>
 ) => {
   const definition = query.definitions[0];
   if (definition?.kind === "OperationDefinition") {
@@ -93,7 +93,7 @@ const getFieldSelectionName = (
  */
 const createLocalValueExchange = <T extends object>(
   key: string,
-  callback: () => Promise<T>,
+  callback: () => Promise<T>
 ) => {
   const localValueExchange: Exchange = ({ forward }) => {
     return (ops$) => {
@@ -103,7 +103,7 @@ const createLocalValueExchange = <T extends object>(
           const selectionName = getFieldSelectionName(query);
           return key !== selectionName;
         }),
-        forward,
+        forward
       );
       const valueOps$ = pipe(
         ops$,
@@ -115,9 +115,9 @@ const createLocalValueExchange = <T extends object>(
           return fromPromise(
             new Promise<OperationResult>(async (resolve) => {
               resolve(makeResult(op, { data: { [key]: await callback() } }));
-            }),
+            })
           );
-        }),
+        })
       );
       return merge([filterOps$, valueOps$]);
     };
@@ -159,7 +159,7 @@ export const createNextSSRExchange = () => {
             if (operation.kind === "query") {
               operation.context.resolve();
             }
-          }),
+          })
         );
       }
     };
@@ -176,7 +176,7 @@ export const createNextSSRExchange = () => {
           return _ssrExchange.extractData();
         }),
       _nextExchange,
-    ].filter((v): v is Exchange => v !== false),
+    ].filter((v): v is Exchange => v !== false)
   );
 };
 
