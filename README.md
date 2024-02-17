@@ -1,6 +1,6 @@
 # @react-libraries/next-exchange-ssr
 
-SSR urql useQuery as it is on Next.js.  
+SSR with urql in Next.js and Remix.
 Does not require 'withUrqlClient'.
 
 ## Sample
@@ -18,6 +18,7 @@ import { cacheExchange, Client, fetchExchange, Provider } from "urql";
 import {
   useCreateNextSSRExchange,
   NextSSRProvider,
+  NextSSRWait,
 } from "@react-libraries/next-exchange-ssr";
 import type { AppType } from "next/app";
 
@@ -48,6 +49,9 @@ const App: AppType = ({ Component, pageProps }) => {
       {/* Additional data collection functions for SSR */}
       <NextSSRProvider>
         <Component {...pageProps} />
+        <NextSSRWait>
+          {/* Describe components to be called after the end of asynchronous processing. */}
+        </NextSSRWait>>
       </NextSSRProvider>
     </Provider>
   );
