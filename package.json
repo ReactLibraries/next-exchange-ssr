@@ -1,6 +1,6 @@
 {
   "name": "@react-libraries/next-exchange-ssr",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
   "exports": {

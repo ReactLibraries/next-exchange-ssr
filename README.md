@@ -51,7 +51,7 @@ const App: AppType = ({ Component, pageProps }) => {
         <Component {...pageProps} />
         <NextSSRWait>
           {/* Describe components to be called after the end of asynchronous processing. */}
-        </NextSSRWait>>
+        </NextSSRWait>
       </NextSSRProvider>
     </Provider>
   );
