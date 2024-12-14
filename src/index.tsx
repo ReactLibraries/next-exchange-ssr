@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { finished } from "stream";
 import { DocumentNode } from "graphql";
 import React, { createContext, useContext } from "react";
 import { ReactNode, useRef } from "react";
-import { finished } from "stream";
 import {
   AnyVariables,
   Client,
@@ -100,7 +101,7 @@ export const NextSSRProvider = ({
  * Get name from first field
  */
 const getFieldSelectionName = (
-  query: DocumentNode | TypedDocumentNode<any, AnyVariables>,
+  query: DocumentNode | TypedDocumentNode<any, AnyVariables>
 ) => {
   const definition = query.definitions[0];
   if (definition?.kind === "OperationDefinition") {
@@ -117,7 +118,7 @@ const getFieldSelectionName = (
  */
 const createLocalValueExchange = <T extends object>(
   key: string,
-  callback: () => Promise<T>,
+  callback: () => Promise<T>
 ) => {
   const localValueExchange: Exchange = ({ forward }) => {
     return (ops$) => {
@@ -127,7 +128,7 @@ const createLocalValueExchange = <T extends object>(
           const selectionName = getFieldSelectionName(query);
           return key !== selectionName;
         }),
-        forward,
+        forward
       );
       const valueOps$ = pipe(
         ops$,
@@ -137,11 +138,12 @@ const createLocalValueExchange = <T extends object>(
         }),
         mergeMap((op) => {
           return fromPromise(
+            // eslint-disable-next-line no-async-promise-executor
             new Promise<OperationResult>(async (resolve) => {
               resolve(makeResult(op, { data: { [key]: await callback() } }));
-            }),
+            })
           );
-        }),
+        })
       );
       return merge([filterOps$, valueOps$]);
     };
@@ -183,7 +185,7 @@ export const createNextSSRExchange = () => {
             if (operation.kind === "query") {
               operation.context.resolve();
             }
-          }),
+          })
         );
       }
     };
@@ -200,7 +202,7 @@ export const createNextSSRExchange = () => {
           return _ssrExchange.extractData();
         }),
       _nextExchange,
-    ].filter((v): v is Exchange => v !== false),
+    ].filter((v): v is Exchange => v !== false)
   );
 };
 
@@ -208,7 +210,7 @@ export const createNextSSRExchange = () => {
  * Get exchange for Next.js
  */
 export const useCreateNextSSRExchange = () => {
-  const refExchange = useRef<Exchange>();
+  const refExchange = useRef<Exchange | undefined>(undefined);
   if (!refExchange.current) {
     refExchange.current = createNextSSRExchange();
   }
