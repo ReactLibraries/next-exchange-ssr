@@ -1,6 +1,11 @@
 # @react-libraries/next-exchange-ssr
 
-SSR with urql in Next.js and Remix.
+[![](https://img.shields.io/npm/l/@react-libraries/next-exchange-ssr)](https://www.npmjs.com/package/@react-libraries/next-exchange-ssr)
+[![](https://img.shields.io/npm/v/@react-libraries/next-exchange-ssr)](https://www.npmjs.com/package/@react-libraries/next-exchange-ssr)
+[![](https://img.shields.io/npm/dw/@react-libraries/next-exchange-ssr)](https://www.npmjs.com/package/@react-libraries/next-exchange-ssr)
+[![](https://deepwiki.com/badge.svg)](https://deepwiki.com/ReactLibraries/next-exchange-ssr)
+
+SSR with urql in Next.js and React Router (Remix).
 Does not require 'withUrqlClient'.
 
 ## Sample
@@ -91,7 +96,8 @@ const Page = () => {
       {/* SSRedacted data can be updated by refetch. */}
       <button onClick={() => refetch({ requestPolicy: "network-only" })}>
         Update date
-      </button> {/* Dates are output as SSR. */}
+      </button>{" "}
+      {/* Dates are output as SSR. */}
       {data?.date &&
         new Date(data.date).toLocaleString("en-US", { timeZone: "UTC" })}
     </>

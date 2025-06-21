@@ -1,6 +1,6 @@
 {
   "name": "@react-libraries/next-exchange-ssr",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "main": "./dist/cjs/index.js",
   "types": "./dist/cjs/index.d.ts",
   "exports": {
@@ -16,20 +16,21 @@
     "access": "public"
   },
   "devDependencies": {
-    "@types/node": "^22.10.2",
-    "@types/react": "^19.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.18.0",
+    "@eslint/js": "9.29.0",
+    "@types/node": "^24.0.3",
+    "@types/react": "^19.1.8",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
     "cpy-cli": "^5.0.0",
-    "eslint": "9.17.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.7.0",
-    "eslint-plugin-import": "^2.31.0",
-    "graphql": "^16.9.0",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.2",
-    "urql": "^4.2.1",
-    "wonka": "^6.3.4",
-    "typescript-eslint": "^8.18.0"
+    "eslint": "9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-import-resolver-typescript": "^4.4.3",
+    "eslint-plugin-import": "^2.32.0",
+    "graphql": "^16.11.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "urql": "^4.2.2",
+    "wonka": "^6.3.5"
   },
   "author": "SoraKumo <info@croud.jp>",
   "keywords": [
